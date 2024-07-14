@@ -21,7 +21,7 @@ public class UserJpaEntity {
     private Long userId;
 
     @Column(name = "id", nullable = false)
-    private String identifierㄴㄴ;
+    private String identifier;
 
     @Column(name = "password", nullable = false)
     private String password;
