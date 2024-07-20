@@ -1,6 +1,7 @@
 package com.goldenengineering.coffeebara.device;
 
 import com.goldenengineering.coffeebara.device.dto.request.SaveCapacityRequest;
+import com.goldenengineering.coffeebara.device.dto.response.GetDeviceInfoResponse;
 import com.goldenengineering.coffeebara.device.dto.response.GetDeviceOnMapResponse;
 import com.goldenengineering.coffeebara.device.model.DeviceJpaEntity;
 import com.goldenengineering.coffeebara.device.repository.DeviceRepository;
@@ -32,6 +33,27 @@ public class DeviceService {
 
         return GetDeviceOnMapResponse.builder()
                 .devices(
+                        deviceJpaEntityList.stream()
+                                .map(a -> GetDeviceOnMapResponse.DeviceInfo.builder()
+                                        .device_id(a.getDeviceId())
+                                        .location(a.getLocation())
+                                        .latitude(a.getLatitude())
+                                        .longitude(a.getLongitude())
+                                        .capacity(a.getCapacity())
+                                        .build()
+                                )
+                                .toList()
+                )
+                .build();
+    }
+
+    public GetDeviceInfoResponse getDeviceInfo() {
+        log.info("DeviceService.getDeviceInfo");
+
+        List<DeviceJpaEntity> deviceJpaEntityList = deviceRepository.findAll();
+
+        return GetDeviceInfoResponse.builder()
+                .deviceInfos(
                         deviceJpaEntityList.stream()
                                 .map(a -> GetDeviceOnMapResponse.DeviceInfo.builder()
                                         .device_id(a.getDeviceId())

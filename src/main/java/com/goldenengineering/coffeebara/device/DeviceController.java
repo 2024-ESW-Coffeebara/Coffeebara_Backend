@@ -3,6 +3,7 @@ package com.goldenengineering.coffeebara.device;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import com.goldenengineering.coffeebara.common.response.BaseResponse;
 import com.goldenengineering.coffeebara.device.dto.request.SaveCapacityRequest;
+import com.goldenengineering.coffeebara.device.dto.response.GetDeviceInfoResponse;
 import com.goldenengineering.coffeebara.device.dto.response.GetDeviceOnMapResponse;
 import com.goldenengineering.coffeebara.device.exception.DeviceException;
 import com.goldenengineering.coffeebara.device.validation.DeviceValidation;
@@ -55,5 +56,12 @@ public class DeviceController {
         deviceValidation.isValidLongitude(northRightLongitude);
 
         return new BaseResponse<>(deviceService.getDeviceOnMap(southLeftLatitude,southLeftLongitude,northRightLatitude,northRightLongitude));
+    }
+
+    @GetMapping("")
+    public BaseResponse<GetDeviceInfoResponse> getDeviceInfo() {
+        log.info("DeviceController.getDeviceOnMap");
+
+        return new BaseResponse<>(deviceService.getDeviceInfo());
     }
 }

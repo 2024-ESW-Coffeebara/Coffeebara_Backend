@@ -11,4 +11,5 @@ import java.util.List;
 public interface DeviceRepository extends JpaRepository<DeviceJpaEntity, Long> {
     DeviceJpaEntity findByDeviceId(long id);
     List<DeviceJpaEntity> findByLatitudeBetweenAndLongitudeBetween(Double southLeftLatitude, Double northRightLatitude, Double southLeftLongitude, Double northRightLongitude);
+    List<DeviceJpaEntity> findAllBy();
 }
