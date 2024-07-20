@@ -2,12 +2,17 @@ package com.goldenengineering.coffeebara.user;
 
 import com.goldenengineering.coffeebara.common.enums.Role;
 import com.goldenengineering.coffeebara.user.dto.request.CreateUserRequest;
+import com.goldenengineering.coffeebara.user.dto.request.LoginUserRequest;
 import com.goldenengineering.coffeebara.user.dto.response.CreateUserResponse;
+import com.goldenengineering.coffeebara.user.exception.UserException;
 import com.goldenengineering.coffeebara.user.model.UserJpaEntity;
 import com.goldenengineering.coffeebara.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
+
+import static com.goldenengineering.coffeebara.common.response.status.BaseExceptionResponseStatus.NO_USER_EXIST;
 
 
 @Slf4j
@@ -34,5 +39,13 @@ public class UserService {
         return CreateUserResponse.builder()
                 .userId(userId)
                 .build();
+    }
+
+    public void loginUser(LoginUserRequest loginUserRequest) {
+        log.info("UserService loginUser");
+
+        if(!userRepository.existsByIdentifierAndPassword(loginUserRequest.id(), loginUserRequest.password())) {
+            throw new UserException(NO_USER_EXIST);
+        }
     }
 }

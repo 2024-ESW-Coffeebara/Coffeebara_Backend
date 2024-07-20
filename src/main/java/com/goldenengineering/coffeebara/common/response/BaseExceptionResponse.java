@@ -1,12 +1,9 @@
 package com.goldenengineering.coffeebara.common.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.goldenengineering.coffeebara.common.response.status.BaseExceptionResponseStatus;
 import com.goldenengineering.coffeebara.common.response.status.ResponseStatus;
 import lombok.Getter;
 import lombok.Setter;
-
-import static com.goldenengineering.coffeebara.common.response.status.BaseExceptionResponseStatus.SUCCESS;
 
 @Getter
 @JsonPropertyOrder({"code", "message"})

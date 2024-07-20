@@ -7,7 +7,8 @@ public enum BaseExceptionResponseStatus implements ResponseStatus{
     SUCCESS(200, "성공적으로 완료되었습니다."),
 
     INVALID_USER_FIELD(500),
-    INVALID_DEVICE_INFO(600)
+    INVALID_DEVICE_INFO(600),
+    NO_USER_EXIST(501, "해당하는 유저가 없습니다.")
     ;
 
     private final Integer code;

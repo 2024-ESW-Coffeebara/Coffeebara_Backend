@@ -2,6 +2,7 @@ package com.goldenengineering.coffeebara.user;
 
 import com.goldenengineering.coffeebara.common.response.BaseResponse;
 import com.goldenengineering.coffeebara.user.dto.request.CreateUserRequest;
+import com.goldenengineering.coffeebara.user.dto.request.LoginUserRequest;
 import com.goldenengineering.coffeebara.user.dto.response.CreateUserResponse;
 import com.goldenengineering.coffeebara.user.exception.UserException;
 import com.goldenengineering.coffeebara.user.validation.UserValidation;
@@ -30,11 +31,24 @@ public class UserController {
         log.info("UserController createUser");
 
         if(bindingResult.hasErrors()){
-            throw new UserException(INVALID_USER_FIELD, bindingResult.getFieldErrors().get(0).getDefaultMessage() );
+            throw new UserException(INVALID_USER_FIELD, bindingResult.getFieldErrors().get(0).getDefaultMessage());
         }
 
         userValidation.makeExceptionIfUserIdDuplicate(createUserRequest.id());
 
         return new BaseResponse<>(userService.createUser(createUserRequest));
+    }
+
+    @PostMapping("/login")
+    public BaseResponse loginUser(@Validated @RequestBody LoginUserRequest loginUserRequest, BindingResult bindingResult){
+        log.info("UserController loginUser");
+
+        if(bindingResult.hasErrors()){
+            throw new UserException(INVALID_USER_FIELD, bindingResult.getFieldErrors().get(0).getDefaultMessage() );
+        }
+
+        userService.loginUser(loginUserRequest);
+
+        return new BaseResponse<>();
     }
 }
