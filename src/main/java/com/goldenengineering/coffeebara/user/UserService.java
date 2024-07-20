@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static com.goldenengineering.coffeebara.common.response.status.BaseExceptionResponseStatus.NO_USER_EXIST;
 
 
@@ -41,11 +43,18 @@ public class UserService {
                 .build();
     }
 
-    public void loginUser(LoginUserRequest loginUserRequest) {
+    public CreateUserResponse loginUser(LoginUserRequest loginUserRequest) {
         log.info("UserService loginUser");
 
-        if(!userRepository.existsByIdentifierAndPassword(loginUserRequest.id(), loginUserRequest.password())) {
+        Optional<UserJpaEntity> userJpaEntity = userRepository.findByIdentifierAndPassword(
+                loginUserRequest.id(),
+                loginUserRequest.password()
+        );
+
+        if(userJpaEntity.isEmpty()) {
             throw new UserException(NO_USER_EXIST);
         }
+
+        return new CreateUserResponse(userJpaEntity.get().getUserId());
     }
 }

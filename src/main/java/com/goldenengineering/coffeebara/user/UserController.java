@@ -40,15 +40,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public BaseResponse loginUser(@Validated @RequestBody LoginUserRequest loginUserRequest, BindingResult bindingResult){
+    public BaseResponse<CreateUserResponse> loginUser(@Validated @RequestBody LoginUserRequest loginUserRequest, BindingResult bindingResult){
         log.info("UserController loginUser");
 
         if(bindingResult.hasErrors()){
             throw new UserException(INVALID_USER_FIELD, bindingResult.getFieldErrors().get(0).getDefaultMessage() );
         }
 
-        userService.loginUser(loginUserRequest);
-
-        return new BaseResponse<>();
+        return new BaseResponse<>(userService.loginUser(loginUserRequest));
     }
 }
