@@ -1,19 +1,19 @@
 package com.goldenengineering.coffeebara.device;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.goldenengineering.coffeebara.common.response.BaseResponse;
 import com.goldenengineering.coffeebara.device.dto.request.SaveCapacityRequest;
 import com.goldenengineering.coffeebara.device.dto.response.GetDeviceInfoResponse;
 import com.goldenengineering.coffeebara.device.dto.response.GetDeviceOnMapResponse;
+import com.goldenengineering.coffeebara.device.dto.response.TestResponse;
 import com.goldenengineering.coffeebara.device.exception.DeviceException;
 import com.goldenengineering.coffeebara.device.validation.DeviceValidation;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.goldenengineering.coffeebara.common.response.status.BaseExceptionResponseStatus.INVALID_DEVICE_INFO;
 
@@ -63,5 +63,30 @@ public class DeviceController {
         log.info("DeviceController.getDeviceOnMap");
 
         return new BaseResponse<>(deviceService.getDeviceInfo());
+    }
+
+    @GetMapping("/test")
+    public BaseResponse<TestResponse> test() {
+        log.info("DeviceController.test");
+
+        List<TestResponse.CupInfo> cupInfos = List.of(
+                TestResponse.CupInfo.builder()
+                        .size("Venti")
+                        .cap(true)
+                        .holder(true)
+                        .build(),
+                TestResponse.CupInfo.builder()
+                        .size("Grande")
+                        .cap(true)
+                        .holder(false)
+                        .build()
+        );
+
+        return new BaseResponse<>(
+                TestResponse.builder()
+                        .stage(1)
+                        .cup_infos(cupInfos)
+                        .build()
+        );
     }
 }
